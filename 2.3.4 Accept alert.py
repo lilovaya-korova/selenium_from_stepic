@@ -6,6 +6,10 @@ import re
 def calc(x):
   return str(math.log(abs(12*math.sin(int(x)))))
 
+def copy_from_alert(browser):
+    text = browser.switch_to.alert.text
+    pyperclip.copy(re.search(r'\d*\.\d*', text)[0])
+    browser.switch_to.alert.accept()
 
 link = "http://suninjuly.github.io/alert_accept.html"
 try:
@@ -21,9 +25,8 @@ try:
 
     submit = browser.find_element_by_tag_name('button')
     submit.click()
-    text = browser.switch_to.alert.text
-    browser.switch_to.alert.accept()
-    pyperclip.copy(re.search(r'\d*\.\d*', text)[0])
+
+    copy_from_alert(browser)
 finally:
     # закрываем браузер после всех манипуляций
     browser.quit()
